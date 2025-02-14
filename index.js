@@ -6,7 +6,7 @@ const { connectDB } = require("./config/db");
 
 const http = require("http");
 const userRoutes = require("./routes/users")
- 
+ const productRoutes = require("./routes/products")
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -28,8 +28,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+   
+ 
+
 // Connect to the database
 connectDB();
+
+
 
 
 // app.post("/jwt", async (req, res) => {
@@ -45,7 +51,7 @@ connectDB();
 
 // Use routes
 app.use("/users", userRoutes);
- 
+ app.use("/products",productRoutes);
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("Employee Management Server Running");
