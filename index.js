@@ -6,6 +6,10 @@ const { connectDB } = require("./config/db");
 
 const http = require("http");
 const userRoutes = require("./routes/users")
+const sevenDayCheckRoute = require("./routes/sevenDayCheck");
+
+
+ 
  const productRoutes = require("./routes/products")
 const app = express();
 const port = process.env.PORT || 8000;
@@ -51,6 +55,8 @@ connectDB();
 
 // Use routes
 app.use("/users", userRoutes);
+app.use("/sevenDayCheck", sevenDayCheckRoute);
+ 
  app.use("/products",productRoutes);
 // Root endpoint
 app.get("/", (req, res) => {

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { client } = require("../config/db");
 const { ObjectId } = require('mongodb');
-const { verifyToken, verifyAdmin } = require("../middleware/auth");
+// const { verifyToken, verifyAdmin } = require("../middleware/auth");
 
 const usersCollection = client.db("EmployeeManagement").collection("users");
 
