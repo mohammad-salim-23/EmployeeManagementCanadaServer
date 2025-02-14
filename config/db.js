@@ -16,6 +16,7 @@ async function connectDB(retries = 5, delay = 5000) {
   while (retries > 0) {
     try {
       await client.connect();
+    
       console.log("Employee Management Connected to MongoDB");
       return;
     } catch (error) {
