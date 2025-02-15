@@ -38,7 +38,7 @@ async function checkUnpaidSalaries() {
                 );
                 console.log(`Status updated to "Not Paid" for ${employee.name}`);
             } else {
-                console.log(`${employee.name}'s salary is already paid.`);
+                console.log(`${employee.name}'salary is already paid.`);
             }
         }
     } catch (error) {
@@ -82,15 +82,5 @@ router.get("/", async (req, res) => {
     res.send("Salary check completed.");
 });
 
-// Route to fetch all employee salary data
-router.get("/employees", async (req, res) => {
-    try {
-        const employeeCollection = client.db("EmployeeManagement").collection("employeesSalary");
-        const employees = await employeeCollection.find().toArray();
-        res.json(employees);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching data", error });
-    }
-});
 
 module.exports = router;

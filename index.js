@@ -7,10 +7,13 @@ const { connectDB } = require("./config/db");
 const http = require("http");
 const userRoutes = require("./routes/users")
 const sevenDayCheckRoute = require("./routes/sevenDayCheck");
+const productRoutes = require("./routes/products")
+const firstPaymentRoutes = require("./routes/firstPayment")
+const paymentHistoryRoutes = require("./routes/paymentHistory")
+const salaryPayRoutes = require("./routes/salaryPay")
 
 
- 
- const productRoutes = require("./routes/products")
+
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -56,14 +59,17 @@ connectDB();
 // Use routes
 app.use("/users", userRoutes);
 app.use("/sevenDayCheck", sevenDayCheckRoute);
- 
- app.use("/products",productRoutes);
+app.use("/products",productRoutes);
+app.use("/firstPayment",firstPaymentRoutes);
+app.use("/api/v1/paymentHistory", paymentHistoryRoutes);
+app.use("/api/v1/salaryPay", salaryPayRoutes);
+
+
+
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("Employee Management Server Running");
 });
-
-
 
 
 // Start the server

@@ -5,6 +5,7 @@ const { ObjectId } = require('mongodb');
 
 const  productsCollection= client.db("EmployeeManagement").collection("products");
 
+// Product Post APi
 router.post("/", async (req, res) => {
     try {
       const newProduct = req.body;
@@ -14,6 +15,9 @@ router.post("/", async (req, res) => {
       res.status(500).json({ message: "Error adding product", error });
     }
   });
+
+
+  // Product get APi
   router.get("/", async (req, res) => {
     try {
       const products = await productsCollection.find().toArray();
