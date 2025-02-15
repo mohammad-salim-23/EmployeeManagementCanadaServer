@@ -14,6 +14,11 @@ const salaryPayRoutes = require("./routes/salaryPay")
 
 
 
+const cartRoute = require("./routes/cart")
+
+
+
+const productRoutes = require("./routes/products")
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -36,8 +41,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-   
- 
+
+
 
 // Connect to the database
 connectDB();
@@ -66,6 +71,8 @@ app.use("/api/v1/salaryPay", salaryPayRoutes);
 
 
 
+app.use("/products", productRoutes);
+app.use('/cart', cartRoute)
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("Employee Management Server Running");
