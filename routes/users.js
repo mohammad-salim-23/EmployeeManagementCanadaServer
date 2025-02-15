@@ -28,31 +28,45 @@ router.post('/', async (req, res) => {
 })
 
 
-// Admin Check Api (valid Admin Or UnValid Admin)
-// router.get('/admin/:email', async (req, res) => {
-//   const email = req.params.email;
-//   // console.log(email)
-//   const query = { email: email }
-//   const user = await usersCollection.findOne(query);
-//   let admin = false;
-//   if (user) {
-//     admin = user?.status === 'admin'
-//   }
-//   res.send({ admin });
-// })
+// role base Customer Check 
+router.get('/api/v1/role/:email', async (req, res) => {
+  const email = req.params.email;
+
+  // Token er email er sathe milay dekha hocche
+  // if (email !== req.decode.email) {
+  //   return res.status(403).send({ message: "Email doesn't match. Unauthorized" });
+  // }
+
+  try {
+    const query = { email: email };
+    const user = await usersCollection.findOne(query);
+
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res.send(user);
+
+  } catch (error) {
+    res.status(500).send({ message: "Internal Server Error", error: error.message });
+  }
+});
 
 
-// Make Admin / user 
+
+
+
+// Make Salary Update
 router.patch("/:id", async (req, res) => {
   const id = req.params.id;
-  const { status } = req.body;
+  const { role } = req.body;
 
   const filter = { _id: new ObjectId(id) };
 
   // Construct the update document
   const updateDoc = {
     $set: {
-      status,
+      role,
     },
   };
 
@@ -74,7 +88,7 @@ router.patch("/:id", async (req, res) => {
 
 
 // Dashboard users delete
-router.delete('/:id',  async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
   const result = await usersCollection.deleteOne(query);
