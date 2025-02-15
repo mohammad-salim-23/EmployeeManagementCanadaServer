@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // // User account create
 router.post('/', async (req, res) => {
   const user = req.body;
-  user.status = 'user';
+  user.role = 'customer';
   // insert email id users doesn't exist
   const query = { email: user.email };
   const existingUser = await usersCollection.findOne(query);
