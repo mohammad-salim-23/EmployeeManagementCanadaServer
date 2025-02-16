@@ -17,6 +17,31 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get('/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        console.log("Searching for email:", email);
+
+        // employeeEmail ফিল্ডে সার্চ করা হচ্ছে
+        const query = { employeeEmail: { $regex: new RegExp(`^${email}$`, "i") } };
+        const employee = await employeeCollection.findOne(query);
+
+        console.log("employee found:", employee);
+
+        if (!employee) {
+            return res.status(404).send({ message: "This is Not Employee Email." });
+        }
+
+        res.send(employee);
+
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error", error: error.message });
+    }
+});
+
+
+
+
 // Configuring the email transporter for sending emails
 const transporter = nodemailer.createTransport({
     service: "gmail", // Using Gmail service
@@ -51,20 +76,23 @@ async function sendEmailToEmployee(employeeEmail, newSalary) {
         console.error("Error sending email:", error); // Handle email sending errors
     }
 }
-
 // Route patch: For updating the salary
 router.patch("/update-salary", async (req, res) => {
     const { email, newSalary } = req.body; // Extract email and newSalary from the request body
-    // console.log("Received data:", req.body); // Debugging line
 
     if (!email || !newSalary) {
-        return res.status(400).json({ message: "Email and new salary are required" }); // Validate if email and salary are provided
+        return res.status(400).json({ message: "Email and new salary are required" }); // Validate input
     }
 
     try {
         const result = await employeeCollection.updateOne(
             { employeeEmail: email }, // Find the employee by email
-            { $set: { employeeSalary: newSalary } } // Update the employee's salary
+            {
+                $set: {
+                    employeeSalary: newSalary, // Update salary
+                    lastSalaryPaid: new Date() // Update lastSalaryPaid with current timestamp
+                }
+            }
         );
 
         if (result.matchedCount === 0) {
@@ -74,7 +102,9 @@ router.patch("/update-salary", async (req, res) => {
         // Sending email to the employee once salary is updated
         await sendEmailToEmployee(email, newSalary);
 
-        res.json({ message: 200 }); // Success response
+        res.json({ message: 200
+            
+         }); // Success response
     } catch (error) {
         console.error("Database update error:", error); // Handle database update errors
         res.status(500).json({ message: "Error updating salary", error }); // Send error response
