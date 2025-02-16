@@ -11,14 +11,8 @@ const productRoutes = require("./routes/products")
 const firstPaymentRoutes = require("./routes/firstPayment")
 const paymentHistoryRoutes = require("./routes/paymentHistory")
 const salaryPayRoutes = require("./routes/salaryPay")
-
-
-
 const cartRoute = require("./routes/cart")
 
-
-
-const productRoutes = require("./routes/products")
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -68,11 +62,10 @@ app.use("/products",productRoutes);
 app.use("/firstPayment",firstPaymentRoutes);
 app.use("/api/v1/paymentHistory", paymentHistoryRoutes);
 app.use("/api/v1/salaryPay", salaryPayRoutes);
-
-
-
-app.use("/products", productRoutes);
 app.use('/cart', cartRoute)
+
+
+
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("Employee Management Server Running");
