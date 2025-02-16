@@ -12,6 +12,9 @@ const firstPaymentRoutes = require("./routes/firstPayment")
 const paymentHistoryRoutes = require("./routes/paymentHistory")
 const salaryPayRoutes = require("./routes/salaryPay")
 const cartRoute = require("./routes/cart")
+const salaryStatusConfirmRoute = require("./routes/salaryStatusConfirm")
+
+
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -63,6 +66,7 @@ app.use("/firstPayment",firstPaymentRoutes);
 app.use("/api/v1/paymentHistory", paymentHistoryRoutes);
 app.use("/api/v1/salaryPay", salaryPayRoutes);
 app.use('/cart', cartRoute)
+app.use('/api/v1/salaryConfirm', salaryStatusConfirmRoute)
 
 
 
