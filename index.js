@@ -69,6 +69,7 @@ app.use('/cart', cartRoute)
 app.use('/api/v1/salaryConfirm', salaryStatusConfirmRoute)
 
 
+
 // Root endpoint
 app.get("/", (req, res) => {
   res.send("Employee Management Server Running");

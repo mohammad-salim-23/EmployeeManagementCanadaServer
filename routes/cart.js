@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { client } = require("../config/db");
+const { ObjectId } = require("mongodb");
 
 const cartCollection = client.db("EmployeeManagement").collection("cart");
 
@@ -14,13 +15,17 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
-    try {
-        const products = await cartCollection.find().toArray();
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching products", error });
-    }
-});
+router.get('/:email', async (req, res) => {
+    const query = { email: req.params.email }
+    const result = await cartCollection.find(query).sort({ _id: -1 }).toArray();
+    res.send(result)
+})
+
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await cartCollection.deleteOne(query);
+    res.send(result);
+})
 
 module.exports = router;
