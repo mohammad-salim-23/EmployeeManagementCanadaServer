@@ -6,17 +6,23 @@ const { client } = require("../config/db");
 
 const employeeCollection = client.db("EmployeeManagement").collection("employeesSalary");
 
-// employee First Payment Save MongoDB in Admin
+
+// Employee First Payment Save in MongoDB (Admin)
 router.post('/', async (req, res) => {
     try {
-        const firstPayment = req.body;
-        const result = await employeeCollection.insertOne(firstPayment); // Add await
-        res.send(result); // This will now contain insertedId
+        const firstPayment = {
+            ...req.body, 
+            lastSalaryPaid: new Date()  
+        };
+
+        const result = await employeeCollection.insertOne(firstPayment);
+        res.send(result);
     } catch (error) {
         console.error("Error inserting payment:", error);
         res.status(500).send({ message: "Internal Server Error" });
     }
 });
+
 
 
 
