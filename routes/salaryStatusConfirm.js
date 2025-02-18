@@ -15,7 +15,7 @@ router.patch("/update-status", async (req, res) => {
 
     try {
         const result = await employeeCollection.updateOne(
-            { employeeEmail: email }, // ইমেইল দিয়ে কর্মী খুঁজছি
+            { employeeEmail: email },  
             { $set: { status: "Paid" } }
         );
 

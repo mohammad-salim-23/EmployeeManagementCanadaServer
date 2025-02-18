@@ -3,7 +3,6 @@ const router = express.Router();
 const { client } = require("../config/db");
 // const { verifyToken, verifyAdmin } = require("../middleware/auth");
 
-const employeeCollection = client.db("EmployeeManagement").collection("employeesSalary");
 
 // Route to fetch all employee salary data
 router.get("/", async (req, res) => {
