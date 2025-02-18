@@ -20,13 +20,13 @@ router.get("/", async (req, res) => {
 router.get('/:email', async (req, res) => {
     try {
         const email = req.params.email;
-        console.log("Searching for email:", email);
+        // console.log("Searching for email:", email);
 
         // employeeEmail ফিল্ডে সার্চ করা হচ্ছে
         const query = { employeeEmail: { $regex: new RegExp(`^${email}$`, "i") } };
         const employee = await employeeCollection.findOne(query);
 
-        console.log("employee found:", employee);
+        // console.log("employee found:", employee);
 
         if (!employee) {
             return res.status(404).send({ message: "This is Not Employee Email." });
